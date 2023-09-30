@@ -2,8 +2,8 @@ import { Button, Stack, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 export const LoginSignUp = () => {
-  const loginUser = () => console.log("Login");
-  const signUpUser = () => console.log("SignUp");
+  const loginUser = () => window.location.href = "http://localhost:3000/auth/github";
+  const signUpUser = () => window.location.href = "http://localhost:3000/auth/github";
 
   return (
     <>
