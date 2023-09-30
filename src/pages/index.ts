@@ -1,1 +1,2 @@
-export * from "./LoginSignup";
+export * from "./LoginSignUp";
+export * from "./Profile";
