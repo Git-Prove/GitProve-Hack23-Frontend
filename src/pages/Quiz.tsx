@@ -17,6 +17,7 @@ export const Quiz: React.FC = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.post(OPENAI_ENDPOINT, {
           prompt: `Generate 4 quiz questions about ${skillName}`,
@@ -26,13 +27,13 @@ export const Quiz: React.FC = () => {
           .split("\n")
           .filter((q: unknown) => q);
         setQuestions(generatedQuestions);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching questions:", error);
+        setIsLoading(false);
       }
     };
-    setIsLoading(true);
     fetchQuestions();
-    setIsLoading(false);
   }, [skillName]);
 
   const handleSubmit = async () => {
