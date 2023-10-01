@@ -1,49 +1,15 @@
-import { useEffect, useState } from "react";
-import {
-  Avatar,
-  Typography,
-  CircularProgress,
-  Grid,
-  Chip,
-  Badge,
-  Button,
-} from "@mui/material";
+import { Avatar, Typography, Grid, Chip, Badge, Button } from "@mui/material";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { CenteredPaper } from "../components";
 import { userData } from "../MOCKS/userData";
 
-type UserData = {
+export type UserData = {
   avatarUrl: string;
   name: string;
 };
 
-export const Profile = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<UserData>();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userRequest = await fetch("http://localhost:3000/api/users/me", {
-        credentials: "include",
-      });
-
-      const userData = await userRequest.json();
-
-      setUser(userData);
-      setIsLoading(false);
-    };
-
-    fetchUser();
-  }, []);
-
-  if (isLoading)
-    return (
-      <CenteredPaper>
-        <CircularProgress color="inherit" size={16} />
-      </CenteredPaper>
-    );
-
+export const Profile = ({ user }: { user: UserData }) => {
   return (
     <CenteredPaper>
       <Grid container spacing={3}>

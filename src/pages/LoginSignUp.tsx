@@ -1,10 +1,11 @@
 import { Button, Stack, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-export const LoginSignUp = ({ setLogin }: { setLogin: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  const loginUser = () => setLogin(true);
-    //(window.location.href = "http://localhost:3000/api/auth/github");
-  const signUpUser = () => setLogin(true);
+export const LoginSignUp = () => {
+  const loginUser = () =>
+    (window.location.href = "http://127.0.0.1:3000/auth/github");
+  const signUpUser = () =>
+    (window.location.href = "http://127.0.0.1:3000/auth/github");
 
   return (
     <>

@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CenteredPaper } from "../components";
 
 // Test repo question
-const OPENAI_ENDPOINT = "http://localhost:3000/quiz-questions/battleships";
+const OPENAI_ENDPOINT = "http://127.0.0.1:3000/quiz-questions/battleships";
 
 export const CodeKnowledge: React.FC = () => {
   const { skillName } = useParams<{ skillName: string }>();
@@ -22,7 +22,7 @@ export const CodeKnowledge: React.FC = () => {
       try {
         const response = await axios.get(OPENAI_ENDPOINT);
 
-        const generatedQuestions = response.data.response.content
+        const generatedQuestions = response.data
           .split("\n")
           .filter((q: unknown) => q);
         setQuestions(generatedQuestions);
@@ -68,7 +68,7 @@ export const CodeKnowledge: React.FC = () => {
         // }
       );
 
-      const evaluationText = response.data.response.content.trim();
+      const evaluationText = response.data.trim();
       // You'll need to interpret the evaluationText to get a score
       // For simplicity, I'm assuming a score of 1 if the evaluation is positive
       return { score: evaluationText.includes("TRUE") ? 1 : 0 };
@@ -84,7 +84,9 @@ export const CodeKnowledge: React.FC = () => {
     <CenteredPaper>
       <Button onClick={() => navigate("/")}>Back</Button>
       <Typography variant="h4">Code Knowledge Test</Typography>
-      <Typography variant="body2">Based on your GitHub random repository</Typography>
+      <Typography variant="body2">
+        Based on your GitHub random repository
+      </Typography>
       <List>
         {questions.map((question, index) => (
           <ListItem key={index}>

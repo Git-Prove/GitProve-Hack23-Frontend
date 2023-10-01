@@ -4,7 +4,7 @@ import { Button, TextField, Typography, List, ListItem } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { CenteredPaper } from "../components";
 
-const OPENAI_ENDPOINT = "http://localhost:3000/prompt-gpt";
+const OPENAI_ENDPOINT = "http://127.0.0.1:3000/prompt-gpt";
 
 export const Quiz: React.FC = () => {
   const { skillName } = useParams<{ skillName: string }>();
