@@ -4,6 +4,8 @@ import { Button, TextField, Typography, List, ListItem } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { CenteredPaper } from "../components";
 
+const OPENAI_ENDPOINT = "http://localhost:3000/prompt-gpt";
+
 export const Quiz: React.FC = () => {
   const { skillName } = useParams<{ skillName: string }>();
   const [questions, setQuestions] = useState<string[]>([]);
@@ -14,20 +16,11 @@ export const Quiz: React.FC = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.post(
-          OPENAI_ENDPOINT,
-          {
-            prompt: `Generate 4 quiz questions about ${skillName}`,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${OPENAI_API_KEY}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.post(OPENAI_ENDPOINT, {
+          prompt: `Generate 4 quiz questions about ${skillName}`,
+        });
 
-        const generatedQuestions = response.data.choices[0].text
+        const generatedQuestions = response.data.response.content
           .split("\n")
           .filter((q: unknown) => q);
         setQuestions(generatedQuestions);
@@ -61,16 +54,16 @@ export const Quiz: React.FC = () => {
         OPENAI_ENDPOINT,
         {
           prompt: `Evaluate the answer to the question "${question}": ${answer}`,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${OPENAI_API_KEY}`,
-            "Content-Type": "application/json",
-          },
         }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${OPENAI_API_KEY}`,
+        //     "Content-Type": "application/json",
+        //   },
+        // }
       );
 
-      const evaluationText = response.data.choices[0].text.trim();
+      const evaluationText = response.data.response.content.trim();
       // You'll need to interpret the evaluationText to get a score
       // For simplicity, I'm assuming a score of 1 if the evaluation is positive
       return { score: evaluationText.includes("correct") ? 1 : 0 };
