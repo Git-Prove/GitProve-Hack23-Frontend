@@ -1,25 +1,10 @@
 import { Button, Stack, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { useEffect } from "react";
 
 export const LoginSignUp = ({ setLogin }: { setLogin: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const loginUser = () => setLogin(true);
     //(window.location.href = "http://localhost:3000/api/auth/github");
   const signUpUser = () => setLogin(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await fetch("http://localhost:3000/api/users/me", {
-        credentials: "include",
-      });
-
-      const usr = await user.json();
-
-      console.log(usr);
-    };
-
-    fetchUser();
-  }, []);
 
   return (
     <>

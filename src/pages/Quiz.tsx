@@ -8,6 +8,8 @@ const OPENAI_ENDPOINT = "http://localhost:3000/prompt-gpt";
 
 export const Quiz: React.FC = () => {
   const { skillName } = useParams<{ skillName: string }>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEvaluating, setIsEvaluating] = useState(false);
   const [questions, setQuestions] = useState<string[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
   const [score, setScore] = useState<number | null>(null);
@@ -28,11 +30,13 @@ export const Quiz: React.FC = () => {
         console.error("Error fetching questions:", error);
       }
     };
-
+    setIsLoading(true);
     fetchQuestions();
+    setIsLoading(false);
   }, [skillName]);
 
   const handleSubmit = async () => {
+    setIsEvaluating(true);
     let totalScore = 0;
     for (let i = 0; i < answers.length; i++) {
       const evaluation = await evaluateAnswer(questions[i], answers[i]);
@@ -46,6 +50,7 @@ export const Quiz: React.FC = () => {
     } else {
       alert("You did not pass the test. Try again.");
     }
+    setIsEvaluating(false);
   };
 
   const evaluateAnswer = async (question: string, answer: string) => {
@@ -73,6 +78,8 @@ export const Quiz: React.FC = () => {
     }
   };
 
+  if (isLoading) return <CenteredPaper>Loading Questions</CenteredPaper>;
+
   return (
     <CenteredPaper>
       <Button onClick={() => navigate("/")}>Back</Button>
@@ -98,8 +105,12 @@ export const Quiz: React.FC = () => {
       <Button variant="contained" color="primary" onClick={handleSubmit}>
         Submit
       </Button>
-      {score !== null && (
-        <Typography variant="h5">Your score: {score}/4</Typography>
+      {isEvaluating ? (
+        <Typography variant="h5">Evaluating answers</Typography>
+      ) : (
+        score !== null && (
+          <Typography variant="h5">Your score: {score}/4</Typography>
+        )
       )}
     </CenteredPaper>
   );
