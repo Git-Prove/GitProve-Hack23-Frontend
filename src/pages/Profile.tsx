@@ -9,6 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
 import { CenteredPaper } from "../components";
 import { userData } from "../MOCKS/userData";
 
@@ -74,19 +75,16 @@ export const Profile = () => {
               badgeContent={skill.verified ? "verified" : "unverified"}
               color={skill.verified ? "primary" : "error"}
             >
-              <Chip
-                icon={<Icon icon={skill.icon} />}
-                label={`${skill.name} (${skill.lines || skill.percentage} ${
-                  skill.lines ? "lines" : "%"
-                })`}
-                clickable
-                onClick={() => {
-                  // For demonstration purposes, I'm using an alert.
-                  // In a real-world scenario, you'd navigate to the Skill page.
-                  alert(`Navigating to ${skill.name} Skill page!`);
-                }}
-                style={{ margin: "5px", cursor: "pointer" }}
-              />
+              <Link to={`/skill/${skill.name}`}>
+                <Chip
+                  icon={<Icon icon={skill.icon} />}
+                  label={`${skill.name} (${skill.lines || skill.percentage} ${
+                    skill.lines ? "lines" : "%"
+                  })`}
+                  clickable
+                  style={{ margin: "5px", cursor: "pointer" }}
+                />
+              </Link>
             </Badge>
           ))}
           <Button
