@@ -139,20 +139,21 @@ export const Skill: React.FC = () => {
             <Typography variant="h6" gutterBottom style={{ marginTop: "15px" }}>
               Verification Options:
             </Typography>
-              <Button
+            <Button
               onClick={() => navigate(`/skill/${skill.name}/quiz`)}
-                variant="outlined"
-                color="primary"
-                style={{
-                  margin: "10px 4px",
-                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                Quiz
-              </Button>
+              variant="outlined"
+              color="primary"
+              style={{
+                margin: "10px 4px",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              Quiz
+            </Button>
             <Button
               variant="outlined"
               color="primary"
+              onClick={() => navigate(`/skill/${skill.name}/test`)}
               style={{
                 margin: "10px 4px",
                 boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",

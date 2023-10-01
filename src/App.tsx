@@ -5,7 +5,7 @@ import {
   createTheme,
 } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { LoginSignUp, Profile } from "./pages";
+import { CodeKnowledge, LoginSignUp, Profile } from "./pages";
 import { useState } from "react";
 import { Skill } from "./pages/Skill";
 import { Quiz } from "./pages/Quiz";
@@ -53,6 +53,10 @@ const App = () => {
             <Routes>
               <Route path="/skill/:skillName" element={<Skill />} />
               <Route path="/skill/:skillName/quiz" element={<Quiz />} />
+              <Route
+                path="/skill/:skillName/test"
+                element={<CodeKnowledge />}
+              />
               <Route path="/" element={<Profile />} />
             </Routes>
           )}
