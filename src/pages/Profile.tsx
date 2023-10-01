@@ -91,7 +91,7 @@ export const Profile = () => {
             variant="contained"
             color="primary"
             style={{ marginTop: "20px", float: "right" }}
-            onClick={() => alert("Add more skills clicked!")}
+            disabled
           >
             + Add more skills
           </Button>
