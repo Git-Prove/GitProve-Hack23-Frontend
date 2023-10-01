@@ -1,17 +1,18 @@
 import { Icon } from "@iconify/react";
-import {
-  Typography,
-  Grid,
-  Button,
-} from "@mui/material";
+import { Typography, Grid, Button } from "@mui/material";
 import { CenteredPaper } from "../components";
 import { userData } from "../MOCKS/userData";
+import { useParams } from "react-router-dom";
 
-interface SkillProps {
-  skill: typeof userData.skills[0];
-}
 
-export const Skill: React.FC<SkillProps> = ({ skill }) => {
+export const Skill: React.FC = () => {
+  const { skillName } = useParams<{ skillName: string }>();
+  const skill = userData.skills.find((s) => s.name === skillName);
+
+  if (!skill) {
+    return <div>Skill not found</div>;
+  }
+
   const mockedRepos = [
     "Repo1-using-JavaScript",
     "Repo2-using-JavaScript",
@@ -39,7 +40,11 @@ export const Skill: React.FC<SkillProps> = ({ skill }) => {
           <ul>
             {mockedRepos.map((repo) => (
               <li key={repo}>
-                <a href={`https://github.com/user/${repo}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`https://github.com/user/${repo}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {repo}
                 </a>
               </li>

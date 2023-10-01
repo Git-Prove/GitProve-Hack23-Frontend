@@ -4,8 +4,10 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { LoginSignUp, Profile } from "./pages";
 import { useState } from "react";
+import { Skill } from "./pages/Skill";
 
 const theme = createTheme({
   palette: {
@@ -43,11 +45,16 @@ const App = () => {
           height: "100vh",
         }}
       >
-        {!isUserLoggedIn ? (
-          <LoginSignUp setLogin={setIsUserLoggedIn} />
-        ) : (
-          <Profile />
-        )}
+        <Router>
+          {!isUserLoggedIn ? (
+            <LoginSignUp setLogin={setIsUserLoggedIn} />
+          ) : (
+            <Routes>
+              <Route path="/skill/:skillName" element={<Skill />} />
+              <Route path="/" element={<Profile />} />
+            </Routes>
+          )}
+        </Router>
       </Container>
     </ThemeProvider>
   );
