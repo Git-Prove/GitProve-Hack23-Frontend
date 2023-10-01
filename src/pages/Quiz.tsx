@@ -8,7 +8,7 @@ const OPENAI_ENDPOINT = "http://localhost:3000/prompt-gpt";
 
 export const Quiz: React.FC = () => {
   const { skillName } = useParams<{ skillName: string }>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [questions, setQuestions] = useState<string[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -59,7 +59,7 @@ export const Quiz: React.FC = () => {
       const response = await axios.post(
         OPENAI_ENDPOINT,
         {
-          prompt: `Evaluate the answer to the question "${question}": ${answer}`,
+          prompt: `Evaluate the answer to the question "${question}": ${answer} and reply only with ONE word: TRUE or FALSE`,
         }
         // {
         //   headers: {
@@ -72,7 +72,7 @@ export const Quiz: React.FC = () => {
       const evaluationText = response.data.response.content.trim();
       // You'll need to interpret the evaluationText to get a score
       // For simplicity, I'm assuming a score of 1 if the evaluation is positive
-      return { score: evaluationText.includes("correct") ? 1 : 0 };
+      return { score: evaluationText.includes("TRUE") ? 1 : 0 };
     } catch (error) {
       console.error("Error evaluating answer:", error);
       return { score: 0 };
