@@ -45,7 +45,11 @@ export const Skill: React.FC = () => {
   };
 
   const getVerificationStatus = (skill: any) => {
-    if (skill.verificationMethod === "Expert" || ["JavaScript", "Node.js"].includes(skill.name)) return "verified";
+    if (
+      skill.verificationMethod === "Expert" ||
+      ["JavaScript", "Node.js"].includes(skill.name)
+    )
+      return "verified";
     if (skill.verificationMethod === "Quiz") return "pending";
     return "unverified";
   };
@@ -135,17 +139,17 @@ export const Skill: React.FC = () => {
             <Typography variant="h6" gutterBottom style={{ marginTop: "15px" }}>
               Verification Options:
             </Typography>
-            
-            <Button
-              variant="outlined"
-              color="primary"
-              style={{
-                margin: "10px 4px",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              Quiz
-            </Button>
+              <Button
+              onClick={() => navigate(`/skill/${skill.name}/quiz`)}
+                variant="outlined"
+                color="primary"
+                style={{
+                  margin: "10px 4px",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                Quiz
+              </Button>
             <Button
               variant="outlined"
               color="primary"
@@ -172,4 +176,3 @@ export const Skill: React.FC = () => {
     </CenteredPaper>
   );
 };
-

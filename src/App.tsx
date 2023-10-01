@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { LoginSignUp, Profile } from "./pages";
 import { useState } from "react";
 import { Skill } from "./pages/Skill";
+import { Quiz } from "./pages/Quiz";
 
 const theme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ const App = () => {
           ) : (
             <Routes>
               <Route path="/skill/:skillName" element={<Skill />} />
+              <Route path="/skill/:skillName/quiz" element={<Quiz />} />
               <Route path="/" element={<Profile />} />
             </Routes>
           )}
