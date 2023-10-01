@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Container,
   CssBaseline,
   ThemeProvider,
@@ -6,7 +7,7 @@ import {
 } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { CodeKnowledge, LoginSignUp, Profile } from "./pages";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Skill } from "./pages/Skill";
 import { Quiz } from "./pages/Quiz";
 
@@ -31,8 +32,36 @@ const theme = createTheme({
   },
 });
 
+export type UserData = {
+  avatarUrl: string;
+  name: string;
+};
+
 const App = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userRequest = await fetch("http://127.0.0.1:3000/api/users/me", {
+          credentials: "include",
+        });
+
+        const userData = await userRequest.json();
+
+        if (!userData.error) {
+          setUser(userData);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  console.log("User", user);
 
   return (
     <ThemeProvider theme={theme}>
@@ -47,8 +76,10 @@ const App = () => {
         }}
       >
         <Router>
-          {!isUserLoggedIn ? (
-            <LoginSignUp setLogin={setIsUserLoggedIn} />
+          {isLoading ? (
+            <CircularProgress color="inherit" size={32} />
+          ) : !user ? (
+            <LoginSignUp />
           ) : (
             <Routes>
               <Route path="/skill/:skillName" element={<Skill />} />
@@ -57,7 +88,7 @@ const App = () => {
                 path="/skill/:skillName/test"
                 element={<CodeKnowledge />}
               />
-              <Route path="/" element={<Profile />} />
+              <Route path="/" element={<Profile user={user} />} />
             </Routes>
           )}
         </Router>
