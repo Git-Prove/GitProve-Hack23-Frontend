@@ -1,19 +1,16 @@
+import { useEffect, useState } from "react";
 import {
   Avatar,
   Typography,
-  Paper,
-  Box,
   CircularProgress,
+  Grid,
+  Chip,
+  Badge,
+  Button,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-
-const userData = {
-  avatarUrl: "https://avatars.githubusercontent.com/u/aaaaaa",
-  name: "John Doe",
-  bio: "Software Developer at XYZ",
-  repos: 50,
-  contributions: 200,
-};
+import { Icon } from "@iconify/react";
+import { CenteredPaper } from "../components";
+import { userData } from "../MOCKS/userData";
 
 type UserData = {
   avatarUrl: string;
@@ -41,39 +38,67 @@ export const Profile = () => {
 
   if (isLoading)
     return (
-      <Paper
-        elevation={3}
-        style={{ padding: "20px", width: "600px", height: "600px" }}
-      >
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <CircularProgress color="inherit" size={16} />
-        </Box>
-      </Paper>
+      <CenteredPaper>
+        <CircularProgress color="inherit" size={16} />
+      </CenteredPaper>
     );
 
   return (
-    <Paper
-      elevation={3}
-      style={{ padding: "20px", width: "600px", height: "600px" }}
-    >
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Avatar
-          src={user?.avatarUrl || userData.avatarUrl}
-          style={{ width: "100px", height: "100px", marginBottom: "10px" }}
-        />
-        <Typography variant="h5" gutterBottom>
-          {user?.name || userData.name}
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          {userData.bio}
-        </Typography>
-        <Typography variant="body2" gutterBottom>
-          Repos: {userData.repos}
-        </Typography>
-        <Typography variant="body2">
-          Contributions: {userData.contributions}
-        </Typography>
-      </Box>
-    </Paper>
+    <CenteredPaper>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          <Avatar
+            src={user?.avatarUrl || userData.avatarUrl}
+            style={{ width: "100px", height: "100px", marginBottom: "10px" }}
+          />
+          <Typography variant="h5" gutterBottom>
+            {user?.name || userData.name}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            {userData.bio}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Typography variant="body2" gutterBottom>
+            Repos: {userData.repos}
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Contributions: {userData.contributions}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Skills:
+          </Typography>
+          {userData.skills.map((skill) => (
+            <Badge
+              key={skill.name}
+              badgeContent={skill.verified ? "verified" : "unverified"}
+              color={skill.verified ? "primary" : "error"}
+            >
+              <Chip
+                icon={<Icon icon={skill.icon} />}
+                label={`${skill.name} (${skill.lines || skill.percentage} ${
+                  skill.lines ? "lines" : "%"
+                })`}
+                clickable
+                onClick={() => {
+                  // For demonstration purposes, I'm using an alert.
+                  // In a real-world scenario, you'd navigate to the Skill page.
+                  alert(`Navigating to ${skill.name} Skill page!`);
+                }}
+                style={{ margin: "5px", cursor: "pointer" }}
+              />
+            </Badge>
+          ))}
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginTop: "20px", float: "right" }}
+            onClick={() => alert("Add more skills clicked!")}
+          >
+            + Add more skills
+          </Button>
+        </Grid>
+      </Grid>
+    </CenteredPaper>
   );
 };
