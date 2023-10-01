@@ -4,7 +4,8 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-import { LoginSignUp } from "./pages";
+import { LoginSignUp, Profile } from "./pages";
+import { useState } from "react";
 
 const theme = createTheme({
   palette: {
@@ -18,30 +19,38 @@ const theme = createTheme({
       styleOverrides: {
         body: {
           backgroundImage: "url('/background.png')",
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center center',
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
         },
       },
     },
   },
 });
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Container
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <LoginSignUp />
-    </Container>
-  </ThemeProvider>
-);
+const App = () => {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        {!isUserLoggedIn ? (
+          <LoginSignUp setLogin={setIsUserLoggedIn} />
+        ) : (
+          <Profile />
+        )}
+      </Container>
+    </ThemeProvider>
+  );
+};
 
 export default App;
