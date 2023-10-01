@@ -59,7 +59,7 @@ export const Quiz: React.FC = () => {
       const response = await axios.post(
         OPENAI_ENDPOINT,
         {
-          prompt: `Evaluate the answer to the question "${question}": ${answer} and reply only with ONE word: TRUE or FALSE`,
+          prompt: `Evaluate the answer to the question and reply only with ONE word: TRUE or FALSE, the question is:"${question}": and user's answer is: ${answer}`,
         }
         // {
         //   headers: {
